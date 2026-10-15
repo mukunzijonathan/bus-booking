@@ -4,7 +4,12 @@ void main() {
   runApp(const BusApp());
 }
 
-const burgundy = Color(0xFF800020);
+const wine = Color(0xFF6E2438);
+const wineDeep = Color(0xFF3B1220);
+const gold = Color(0xFFC4A265);
+const cream = Color(0xFFF6F0E8);
+const blush = Color(0xFFF8EBE7);
+const stone = Color(0xFFE4D2CC);
 const price = 3000;
 
 class Seat {
@@ -25,10 +30,11 @@ class BusApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Bus Booking',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: burgundy),
+        scaffoldBackgroundColor: cream,
+        colorScheme: ColorScheme.fromSeed(seedColor: wine),
         appBarTheme: const AppBarTheme(
-          backgroundColor: burgundy,
-          foregroundColor: Colors.white,
+          backgroundColor: wineDeep,
+          foregroundColor: cream,
         ),
       ),
       home: const SeatMapScreen(),
@@ -82,20 +88,25 @@ class _SeatMapScreenState extends State<SeatMapScreen> {
             margin: const EdgeInsets.all(16),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: burgundy,
+              color: wine,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Huye · 3,000 RWF',
-                  style: TextStyle(color: Colors.white, fontSize: 22),
+                  'Huye',
+                  style: TextStyle(color: cream, fontSize: 22),
+                ),
+                const SizedBox(height: 4),
+                const Text(
+                  '3,000 RWF',
+                  style: TextStyle(color: gold, fontSize: 18),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   '$sold seats sold · ${moneyMade()} RWF',
-                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                  style: const TextStyle(color: cream, fontSize: 16),
                 ),
               ],
             ),
@@ -111,31 +122,36 @@ class _SeatMapScreenState extends State<SeatMapScreen> {
               itemCount: seats.length,
               itemBuilder: (context, index) {
                 final seat = seats[index];
+                final ink = seat.taken ? cream : wineDeep;
                 return Card(
-                  color: seat.taken ? burgundy : Colors.white,
+                  color: seat.taken ? wine : blush,
+                  elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
-                    side: const BorderSide(color: burgundy, width: 2),
+                    side: BorderSide(
+                      color: seat.taken ? wine : stone,
+                      width: seat.taken ? 0 : 1.5,
+                    ),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
                         seat.taken ? Icons.person : Icons.event_seat,
-                        color: seat.taken ? Colors.white : burgundy,
+                        color: seat.taken ? gold : wine,
                       ),
                       const SizedBox(height: 4),
                       Text(
                         '${seat.number}',
                         style: TextStyle(
-                          color: seat.taken ? Colors.white : burgundy,
+                          color: ink,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         seat.passenger ?? 'Free',
                         style: TextStyle(
-                          color: seat.taken ? Colors.white : burgundy,
+                          color: ink,
                           fontSize: 12,
                         ),
                       ),
