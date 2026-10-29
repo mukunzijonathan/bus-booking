@@ -1,30 +1,45 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:bus_booking/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  test('change is paid out in the biggest notes first', () {
+    expect(changeNotes(7000), {5000: 1, 2000: 1});
+    expect(changeNotes(0), <int, int>{});
+  });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  test('cash must be at least the price and a multiple of 100', () {
+    expect(checkCash(2500), isNotNull);
+    expect(checkCash(3050), isNotNull);
+    expect(checkCash(3000), isNull);
+    expect(checkCash(10000), isNull);
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  test('priority passengers go ahead of ordinary ones, behind earlier priority', () {
+    final waitlist = <Passenger>[];
+    joinWaitlist(waitlist, const Passenger('A'));
+    joinWaitlist(waitlist, const Passenger('B'));
+    joinWaitlist(waitlist, const Passenger('P1', priority: true));
+    joinWaitlist(waitlist, const Passenger('P2', priority: true));
+    expect(waitlist.map((p) => p.name), ['P1', 'P2', 'A', 'B']);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  test('cancelling moves the first waiting passenger into the seat', () {
+    final seat = Seat(4, 'Old');
+    final waitlist = [const Passenger('Frank')];
+    final message = cancelBooking(seat, waitlist);
+    expect(seat.passenger, 'Frank');
+    expect(message, 'Frank moved into seat 4');
+    expect(waitlist, isEmpty);
+  });
+
+  test('money is formatted with thousands separators', () {
+    expect(rwf(36000), '36,000');
+    expect(rwf(100), '100');
+  });
+
+  testWidgets('seat map shows seats sold and money made', (tester) async {
+    await tester.pumpWidget(const BusApp());
+    expect(find.text('3 seats sold · 9,000 RWF'), findsOneWidget);
   });
 }
