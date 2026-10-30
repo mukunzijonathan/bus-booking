@@ -46,3 +46,7 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# Firebase client config. These files hold an API key; keep them on your machine.
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist

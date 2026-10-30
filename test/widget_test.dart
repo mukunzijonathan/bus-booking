@@ -1,6 +1,7 @@
+import 'package:bus_booking/booking_store.dart';
+import 'package:bus_booking/seat_map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:bus_booking/main.dart';
 
 void main() {
   test('change is paid out in the biggest notes first', () {
@@ -39,7 +40,23 @@ void main() {
   });
 
   testWidgets('seat map shows seats sold and money made', (tester) async {
-    await tester.pumpWidget(const BusApp());
+    final seats = [
+      for (var number = 1; number <= 12; number++)
+        Seat(
+          number,
+          switch (number) {
+            1 => 'Uluat',
+            3 => 'Keza',
+            6 => 'Jo',
+            _ => null,
+          },
+        ),
+    ];
+    await tester.pumpWidget(
+      MaterialApp(
+        home: SeatMapView(seats: seats, onSeat: (_) {}, onWaitlist: () {}),
+      ),
+    );
     expect(find.text('3 seats sold · 9,000 RWF'), findsOneWidget);
   });
 }
