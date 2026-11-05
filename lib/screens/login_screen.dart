@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'booking_store.dart';
+import '../repositories/booking_repository.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
           email: _email.text.trim(),
           password: _password.text,
         );
-        await addSampleBookings();
+        await BookingRepository(auth.currentUser!.uid).addSamples();
       } else {
         await auth.signInWithEmailAndPassword(
           email: _email.text.trim(),
@@ -97,10 +97,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     labelText: 'Email',
                     border: OutlineInputBorder(),
                   ),
-                  validator: (v) {
-                    final email = (v ?? '').trim();
+                  validator: (value) {
+                    final email = (value ?? '').trim();
                     if (email.isEmpty) return 'Enter your email';
-                    if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email)) {
+                    if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
+                        .hasMatch(email)) {
                       return 'Enter a valid email, like aline@gmail.com';
                     }
                     return null;
@@ -114,8 +115,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     labelText: 'Password',
                     border: OutlineInputBorder(),
                   ),
-                  validator: (v) =>
-                      (v ?? '').length < 6 ? 'At least 6 characters' : null,
+                  validator: (value) =>
+                      (value ?? '').length < 6 ? 'At least 6 characters' : null,
                 ),
                 const SizedBox(height: 16),
                 if (_error != null)

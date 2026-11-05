@@ -1,10 +1,18 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'auth_gate.dart';
-import 'booking_store.dart';
+import 'screens/auth_gate.dart';
+import 'utils/colors.dart';
 
-export 'booking_store.dart';
+// Session 7 translation table.
+// MoMo Wallet          Bus Booking
+// Txn, txn.dart         Booking, models/booking.dart
+// transactions          bookings  (and waitlist)
+// TxnRepository         BookingRepository, WaitlistRepository
+// WalletState           BookingState
+// balance               seatsLeft, moneyMade
+// WalletScreen          SeatMapScreen
+// TxnForm               BookingFormScreen
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -47,6 +47,10 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Take a photo of the passenger for this booking.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Choose a photo of the passenger from your library.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
