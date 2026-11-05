@@ -16,7 +16,16 @@ import 'utils/colors.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: 'AIzaSyDyFHgSVjt-w4QdfulRKLi7W7l-i9-BdA4',
+      authDomain: 'bus-booking-62768.firebaseapp.com',
+      projectId: 'bus-booking-62768',
+      storageBucket: 'bus-booking-62768.firebasestorage.app',
+      messagingSenderId: '958738470680',
+      appId: '1:958738470680:web:82f417d44c0dabe482706d',
+    ),
+  );
   runApp(const BusApp());
 }
 
